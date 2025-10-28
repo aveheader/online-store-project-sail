@@ -2,20 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Cart extends Model
+class Order extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes;
 
-    protected $table = 'carts';
+    protected $table = 'orders';
 
     protected $fillable = [
         'user_id',
+        'total',
+        'status',
+        'shipping_address',
+    ];
+
+    protected $casts = [
+        'shipping_address' => 'array',
+        'total' => 'decimal:2',
+        'status' => OrderStatus::class,
     ];
 
     public function user(): BelongsTo
@@ -25,6 +34,6 @@ class Cart extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(CartItem::class);
+        return $this->hasMany(OrderItem::class);
     }
 }
