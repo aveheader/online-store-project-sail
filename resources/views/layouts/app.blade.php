@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Shop</title>
     @vite('resources/css/app.css')
 </head>
@@ -18,7 +19,7 @@
 
             @auth
                 <a href="{{ route('cart.index') }}" class="hover:text-blue-500">
-                    Корзина ({{ auth()->user()->cart?->items()->count() ?? 0 }})
+                    Корзина (<span data-cart-count>{{ auth()->user()->cart?->items()->sum('quantity') ?? 0 }}</span>)
                 </a>
 
                 <a href="{{ route('dashboard') }}" class="hover:text-blue-500">

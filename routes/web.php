@@ -29,6 +29,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/remove', [CartController::class, 'delete'])->name('cart.remove');
+    
+    // API для AJAX (используем веб-роуты для работы с сессиями)
+    Route::prefix('api/cart')->group(function () {
+        Route::post('/add', [\App\Http\Controllers\Api\CartController::class, 'add'])->name('api.cart.add');
+        Route::delete('/remove', [\App\Http\Controllers\Api\CartController::class, 'remove'])->name('api.cart.remove');
+        Route::put('/update', [\App\Http\Controllers\Api\CartController::class, 'updateQuantity'])->name('api.cart.update');
+        Route::get('/count', [\App\Http\Controllers\Api\CartController::class, 'getCount'])->name('api.cart.count');
+        Route::get('/state', [\App\Http\Controllers\Api\CartController::class, 'getCartState'])->name('api.cart.state');
+    });
 });
 
 require __DIR__.'/auth.php';

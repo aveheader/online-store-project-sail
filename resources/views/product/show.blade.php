@@ -19,9 +19,11 @@
 
                 @auth
                     <button
-                        class="js-add-to-cart bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                        data-product-id="{{ $product->id }}">
-                        Добавить в корзину
+                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+                        data-cart-add
+                        data-product-id="{{ $product->id }}"
+                        data-quantity="1">
+                        В корзину
                     </button>
                 @else
                     <a href="{{ route('login') }}" class="text-blue-500 underline">Войдите, чтобы добавить в корзину</a>

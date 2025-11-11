@@ -12,8 +12,9 @@
         <span class="font-bold text-blue-600">{{ number_format($product->price, 2) }} ₽</span>
         @auth
             <button
-                class="js-add-to-cart bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                data-product-id="{{ $product->id }}">
+                data-cart-add
+                data-product-id="{{ $product->id }}"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
                 В корзину
             </button>
         @else
