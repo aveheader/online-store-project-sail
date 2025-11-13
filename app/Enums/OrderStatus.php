@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum OrderStatus: string
 {
-    case NEW = 'new';
+    case PENDING = 'pending';
     case PAID = 'paid';
     case SHIPPED = 'shipped';
     case CANCELLED = 'cancelled';
@@ -12,7 +12,7 @@ enum OrderStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::NEW => 'Новый',
+            self::PENDING => 'Ожидает оплаты',
             self::PAID => 'Оплачен',
             self::SHIPPED => 'Отправлен',
             self::CANCELLED => 'Отменен',

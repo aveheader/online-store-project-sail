@@ -29,7 +29,7 @@
                         <td class="p-4">
                             <div class="flex items-center">
                                 @if($item->product->image_url)
-                                    <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}" 
+                                    <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}"
                                          class="w-16 h-16 object-cover rounded mr-3">
                                 @endif
                                 <div>
@@ -43,10 +43,10 @@
                             {{ number_format($item->product->price, 2) }} ₽
                         </td>
                         <td class="p-4">
-                            <input type="number" 
-                                   min="1" 
-                                   value="{{ $item->quantity }}" 
-                                   data-cart-quantity 
+                            <input type="number"
+                                   min="1"
+                                   value="{{ $item->quantity }}"
+                                   data-cart-quantity
                                    data-product-id="{{ $item->product_id }}"
                                    class="w-20 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </td>
@@ -54,8 +54,8 @@
                             {{ number_format($item->product->price * $item->quantity, 2) }} ₽
                         </td>
                         <td class="p-4 text-right">
-                            <button class="text-red-600 hover:text-red-800 font-medium" 
-                                    data-cart-remove 
+                            <button class="text-red-600 hover:text-red-800 font-medium"
+                                    data-cart-remove
                                     data-product-id="{{ $item->product_id }}">
                                 Удалить
                             </button>
@@ -73,7 +73,7 @@
                     </span>
                 </div>
                 <div>
-                    <a href="#" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-medium">
+                    <a href="{{ route('checkout') }}" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-medium">
                         Оформить заказ
                     </a>
                 </div>

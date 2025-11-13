@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
@@ -29,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/remove', [CartController::class, 'delete'])->name('cart.remove');
-    
+
     // API для AJAX (используем веб-роуты для работы с сессиями)
     Route::prefix('api/cart')->group(function () {
         Route::post('/add', [\App\Http\Controllers\Api\CartController::class, 'add'])->name('api.cart.add');
@@ -37,6 +38,14 @@ Route::middleware('auth')->group(function () {
         Route::put('/update', [\App\Http\Controllers\Api\CartController::class, 'updateQuantity'])->name('api.cart.update');
         Route::get('/count', [\App\Http\Controllers\Api\CartController::class, 'getCount'])->name('api.cart.count');
         Route::get('/state', [\App\Http\Controllers\Api\CartController::class, 'getCartState'])->name('api.cart.state');
+    });
+
+    //Оформление заказа
+    Route::middleware('auth')->group(function () {
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+        Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     });
 });
 
