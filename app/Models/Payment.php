@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property mixed $order
+ * @property mixed|string $status
+ * @property false|mixed|string $gateway_response
+ * @method static create(array $array)
  */
 class Payment extends Model
 {

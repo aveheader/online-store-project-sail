@@ -11,7 +11,6 @@ class LogOrderCreated
     {
         $order = $event->order;
 
-        // Подготовим данные к записи
         $data = [
             'order_id' => $order->id,
             'user_id' => $order->user_id,
@@ -29,7 +28,6 @@ class LogOrderCreated
             })->toArray(),
         ];
 
-        // Запишем в отдельный лог-файл
         Log::channel('orders')->info('Order created', $data);
     }
 }

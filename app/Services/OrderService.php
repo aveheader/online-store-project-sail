@@ -55,7 +55,7 @@ class OrderService
                 ]);
             }
 
-            OrderCreated::dispatch($order);
+            event(new OrderCreated($order));
 
             return $order;
         });
