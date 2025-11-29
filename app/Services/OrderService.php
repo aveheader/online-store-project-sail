@@ -45,10 +45,8 @@ class OrderService
                 ]);
             }
 
-            // Очистим корзину
             $cart->items()->delete();
 
-            // Сохраним профиль, если нужно
             if ($dto->save_profile) {
                 $user->profile()->updateOrCreate([], [
                     'phone' => $dto->phone,
@@ -57,7 +55,6 @@ class OrderService
                 ]);
             }
 
-            // Событие
             OrderCreated::dispatch($order);
 
             return $order;

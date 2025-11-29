@@ -54,6 +54,28 @@
         </div>
 
         <div class="text-right">
+            @if($order->status->value === 'pending')
+                <a href="{{ route('payment.start', $order) }}"
+                   class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                    Оплатить заказ
+                </a>
+            @endif
+        </div>
+
+        @if($order->status->value === 'pending')
+            <div class="text-right">
+                <form action="{{ route('orders.cancel', $order) }}" method="POST"
+                      onsubmit="return confirm('Вы уверены, что хотите отменить заказ?');">
+                    @csrf
+                    <button
+                        class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition">
+                        Отменить заказ
+                    </button>
+                </form>
+            </div>
+        @endif
+
+        <div class="text-right">
             <a href="{{ route('products.index') }}"
                class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
                 Продолжить покупки

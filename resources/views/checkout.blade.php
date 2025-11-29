@@ -11,12 +11,14 @@
             <label class="block font-medium text-gray-700">Имя</label>
             <input type="text" name="name" value="{{ old('name', $user->name) }}"
                    class="w-full border rounded-lg px-4 py-2" required>
+            <x-input-error field="name" />
         </div>
 
         <div>
             <label class="block font-medium text-gray-700">Телефон</label>
             <input type="text" name="phone" value="{{ old('phone', $profile->phone ?? '') }}"
                    class="w-full border rounded-lg px-4 py-2" required>
+            <x-input-error field="phone" />
         </div>
 
         <div>
