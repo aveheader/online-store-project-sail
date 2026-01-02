@@ -7,7 +7,3 @@
         @endforeach
     </ul>
 @endif
-
-@if ($errors->has($field))
-    <span class="text-red-500 text-sm">{{ $errors->first($field) }}</span>
-@endif
