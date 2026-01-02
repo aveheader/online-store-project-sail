@@ -1,11 +1,15 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\FakeGatewayController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StripeReturnController;
+use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
 
 // Главная — список товаров
@@ -17,6 +21,9 @@ Route::get('/products/{product}', [ProductController::class, 'show'])->name('pro
 // Категории
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+    ->withoutMiddleware('*');
 
 // Авторизация
 Route::middleware('auth')->group(function () {
@@ -46,7 +53,31 @@ Route::middleware('auth')->group(function () {
         Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
         Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
         Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
     });
+
+    //Создание платежа
+    Route::get('/payment/start/{order}', [PaymentController::class, 'start'])
+        ->middleware('order.owner')
+        ->name('payment.start');
+
+    //Фейковый шлюз оплаты
+    Route::get('/fake-gateway/{payment}', [FakeGatewayController::class, 'show'])
+        ->middleware(['payment.owner', 'payment.pending'])
+        ->name('fake-gateway');
+
+    Route::post('/fake-gateway/{payment}/process', [FakeGatewayController::class, 'process'])
+        ->middleware(['payment.owner', 'payment.pending'])
+        ->name('fake-gateway.process');
+
+    Route::get('/payment/start-stripe/{order}', [PaymentController::class, 'startStripe'])
+        ->name('payment.start.stripe');
+
+    Route::get('/payment/stripe/success', [StripeReturnController::class, 'success'])
+        ->name('payment.stripe.success');
+
+    Route::get('/payment/stripe/cancel', [StripeReturnController::class, 'cancel'])
+        ->name('payment.stripe.cancel');
 });
 
 require __DIR__.'/auth.php';

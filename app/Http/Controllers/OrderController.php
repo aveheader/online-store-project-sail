@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\OrderDataDTO;
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Throwable;
 
 class OrderController extends Controller
 {
@@ -50,7 +52,7 @@ class OrderController extends Controller
     }
 
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function store(Request $request)
     {
@@ -69,5 +71,26 @@ class OrderController extends Controller
         $this->authorize('view', $order);
 
         return view('orders.show', compact('order'));
+    }
+
+    public function cancel(Order $order)
+    {
+        $this->authorize('update', $order);
+
+        if ($order->status === OrderStatus::PAID) {
+            return back()->with('error', 'Оплаченные заказы нельзя отменить.');
+        }
+
+        if ($order->status === OrderStatus::CANCELED) {
+            return back()->with('info', 'Заказ уже отменён.');
+        }
+
+        $order->update([
+            'status' => OrderStatus::CANCELED->value
+        ]);
+
+        return redirect()
+            ->route('orders.show', $order)
+            ->with('success', 'Заказ отменён.');
     }
 }

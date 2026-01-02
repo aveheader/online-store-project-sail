@@ -11,4 +11,9 @@ class OrderPolicy
     {
         return $order->user_id === $user->id;
     }
+
+    public function update(User $user, Order $order): bool
+    {
+        return $order->user_id === $user->id;
+    }
 }
