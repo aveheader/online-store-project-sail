@@ -1,3 +1,4 @@
+@php use App\Enums\OrderStatus; @endphp
 @extends('layouts.app')
 @section('title', 'Заказ №' . $order->id)
 
@@ -8,9 +9,10 @@
         <div>
             <h2 class="text-lg font-semibold mb-2">Статус заказа</h2>
             <span class="px-3 py-1 rounded-full text-sm font-medium
-                @if($order->status->value === 'new') bg-blue-100 text-blue-700
-                @elseif($order->status->value === 'processing') bg-yellow-100 text-yellow-700
-                @else bg-green-100 text-green-700 @endif">
+                @if($order->status === OrderStatus::PENDING) bg-blue-100 text-blue-700
+                @elseif($order->status === OrderStatus::PAID) bg-green-100 text-green-700
+                @elseif($order->status === OrderStatus::CANCELED) bg-red-100 text-red-700
+                @endif">
                 {{ $order->status->label() }}
             </span>
         </div>
@@ -54,15 +56,24 @@
         </div>
 
         <div class="text-right">
-            @if($order->status->value === 'pending')
-                <a href="{{ route('payment.start', $order) }}"
-                   class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
-                    Оплатить заказ
-                </a>
+            @if($order->status->value === OrderStatus::PENDING->value)
+                <div class="flex gap-4 justify-end">
+                    {{-- Фейковый шлюз --}}
+                    <a href="{{ route('payment.start', $order) }}"
+                       class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                        Оплатить (Fake)
+                    </a>
+
+                    {{-- Stripe --}}
+                    <a href="{{ route('payment.start.stripe', $order) }}"
+                       class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">
+                        Оплатить (Stripe)
+                    </a>
+                </div>
             @endif
         </div>
 
-        @if($order->status->value === 'pending')
+        @if($order->status->value === OrderStatus::PENDING->value)
             <div class="text-right">
                 <form action="{{ route('orders.cancel', $order) }}" method="POST"
                       onsubmit="return confirm('Вы уверены, что хотите отменить заказ?');">

@@ -20,6 +20,8 @@ class Payment extends Model
         'amount',
         'status',
         'gateway_response',
+        'provider',
+        'provider_payment_id',
     ];
 
     public function order(): BelongsTo

@@ -19,6 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'payment.owner' => EnsurePaymentBelongsToUser::class,
             'payment.pending' => EnsurePaymentIsPending::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'stripe/webhook',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

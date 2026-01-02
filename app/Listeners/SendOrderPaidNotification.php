@@ -7,16 +7,26 @@ use Illuminate\Support\Facades\Log;
 
 class SendOrderPaidNotification
 {
-    public function handle(OrderPaid $event)
+    public function handle(OrderPaid $event): void
     {
-        $orderPayment = $event->payment;
+        $order = $event->order;
+
+        $payment = $order->payments()->latest('id')->first();
 
         $data = [
-            'order_id' => $orderPayment->order_id,
-            'amount' => $orderPayment->amount,
-            'status' => $orderPayment->status,
-            'gateway_response' => $orderPayment->gateway_response,
+            'order_id' => $order->id,
+            'order_status' => $order->status->value,
         ];
+
+        if ($payment) {
+            $data = array_merge($data, [
+                'payment_id'       => $payment->id,
+                'amount'           => $payment->amount,
+                'status'           => $payment->status,
+                'gateway_response' => $payment->gateway_response,
+                'provider'         => $payment->provider,
+            ]);
+        }
 
         Log::channel('orders')->info('Order paid', $data);
     }

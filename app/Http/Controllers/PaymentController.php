@@ -7,7 +7,6 @@ use App\Enums\PaymentStatus;
 use App\Models\Order;
 use App\Services\PaymentService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
@@ -30,5 +29,16 @@ class PaymentController extends Controller
         $payment = $this->paymentService->createPayment($order);
 
         return redirect()->route('fake-gateway', ['payment' => $payment->id]);
+    }
+
+    public function startStripe(Order $order): RedirectResponse
+    {
+        if ($order->status === OrderStatus::PAID) {
+            return redirect()->route('orders.show', $order);
+        }
+
+        $data = $this->paymentService->createStripePayment($order);
+
+        return redirect()->away($data['redirect_url']);
     }
 }
