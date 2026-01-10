@@ -1,6 +1,6 @@
 <div class="bg-white shadow rounded-xl p-3 flex flex-col">
     <a href="{{ route('products.show', $product) }}">
-        <img src="{{ $product->image_url ?? '/images/no-image.png' }}"
+        <img src="{{ $product->image_url_full }}"
              alt="{{ $product->name }}"
              class="w-full h-48 object-cover rounded-lg mb-2">
         <h2 class="text-lg font-medium">{{ $product->name }}</h2>

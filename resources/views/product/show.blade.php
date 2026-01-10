@@ -5,7 +5,7 @@
 @section('content')
     <div class="max-w-4xl mx-auto bg-white shadow p-6 rounded-xl">
         <div class="grid grid-cols-2 gap-6">
-            <img src="{{ $product->image_url ?? '/images/no-image.png' }}"
+            <img src="{{ $product->image_url_full }}"
                  alt="{{ $product->name }}"
                  class="w-full h-96 object-cover rounded-xl">
 
