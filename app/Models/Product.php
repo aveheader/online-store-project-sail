@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @mixin IdeHelperProduct
@@ -34,5 +35,12 @@ class Product extends Model
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function getImageUrlFullAttribute(): string
+    {
+        return $this->image_url
+            ? Storage::disk('public')->url($this->image_url)
+            : asset('images/no-image.jpg');
     }
 }
