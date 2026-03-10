@@ -1,61 +1,243 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Online Store Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Небольшой pet-проект интернет-магазина на Laravel.
 
-## About Laravel
+Делал его как практику разработки e-commerce приложения: каталог товаров, категории, корзина, оформление заказов, платежный сценарий, личный кабинет пользователя и базовая административная часть.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Проект не претендует на production-ready интернет-магазин, но показывает работу с предметной моделью, пользовательскими сценариями покупки, интеграцией оплаты, ролями и Docker-окружением через Laravel Sail.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Основной функционал
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Каталог
+- просмотр списка товаров
+- просмотр отдельного товара
+- просмотр категорий
+- фильтрация товаров по категориям
 
-## Learning Laravel
+### Пользовательская часть
+- регистрация и авторизация
+- профиль пользователя
+- личный кабинет
+- история заказов
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Корзина
+- добавление товара в корзину
+- удаление товара из корзины
+- изменение количества товаров
+- получение состояния корзины через AJAX
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Заказы
+- оформление заказа
+- просмотр списка заказов
+- просмотр отдельного заказа
+- отмена заказа
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Оплата
+- запуск платежа по заказу
+- фейковый платежный шлюз для тестового сценария оплаты
+- интеграция со Stripe
+- обработка возврата после оплаты
+- webhook для обработки событий Stripe
 
-## Laravel Sponsors
+### Доступ и роли
+- базовая ролевая модель
+- permissions через Spatie Laravel Permission
+- административная часть на Filament
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Стек
 
-### Premium Partners
+- PHP 8.2
+- Laravel 12
+- Eloquent ORM
+- Laravel Breeze
+- Laravel Sail
+- Filament 3
+- Spatie Laravel Permission
+- Stripe PHP SDK
+- MySQL
+- Redis
+- RabbitMQ
+- Mailpit
+- Vite
+- Tailwind CSS
+- Pest
+- Laravel Pint
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Основные сущности
 
-## Contributing
+В проекте используются следующие основные модели:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- `Product`
+- `Category`
+- `Cart`
+- `CartItem`
+- `Order`
+- `OrderItem`
+- `Payment`
+- `User`
+- `UserProfile`
 
-## Code of Conduct
+## Что реализовано по маршрутам
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Публичная часть:
+- каталог товаров
+- карточка товара
+- список категорий
+- просмотр категории
 
-## Security Vulnerabilities
+Под авторизацией:
+- dashboard
+- профиль пользователя
+- корзина
+- AJAX-эндпоинты для корзины
+- оформление и просмотр заказов
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Платежный сценарий:
+- запуск оплаты заказа
+- тестовый fake gateway
+- Stripe success / cancel
+- Stripe webhook
 
-## License
+## Разворачивание проекта
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Проект контейнеризирован через Laravel Sail.
+
+Для запуска нужен:
+- Docker
+- Docker Compose
+
+## Первый запуск
+
+Клонировать репозиторий:
+
+```bash
+git clone https://github.com/aveheader/online-store-project-sail.git
+cd online-store-project-sail
+```
+
+Установить зависимости и подготовить окружение:
+
+```bash
+composer install
+cp .env.example .env
+```
+
+Поднять Docker окружение:
+
+```bash
+./vendor/bin/sail up -d
+```
+
+Сгенерировать ключ приложения и выполнить миграции:
+
+```bash
+./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan migrate
+```
+
+Установить frontend зависимости и собрать ассеты:
+
+```bash
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run build
+```
+
+После запуска приложение будет доступно по адресу:
+
+```
+http://localhost
+```
+
+## Полезные команды
+
+Запуск контейнеров:
+
+```bash
+./vendor/bin/sail up -d
+```
+
+Остановка контейнеров:
+
+```bash
+./vendor/bin/sail down
+```
+
+Выполнение artisan-команд:
+
+```bash
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan db:seed
+./vendor/bin/sail artisan test
+```
+
+Установка npm-зависимостей:
+
+```bash
+./vendor/bin/sail npm install
+```
+
+Запуск dev режима Vite:
+
+```bash
+./vendor/bin/sail npm run dev
+```
+
+Сборка production ассетов:
+
+```bash
+./vendor/bin/sail npm run build
+```
+
+## Docker окружение
+
+В docker-compose окружении поднимаются следующие сервисы:
+
+- `laravel.test` — контейнер приложения
+- `mysql` — база данных
+- `redis` — кэш
+- `rabbitmq` — брокер сообщений
+- `mailpit` — локальный SMTP сервер для тестирования почты
+
+## Переменные окружения
+
+Основные параметры подключения:
+
+- `APP_URL=http://localhost`
+- `DB_CONNECTION=mysql`
+- `DB_HOST=mysql`
+- `DB_PORT=3306`
+- `DB_DATABASE=laravel`
+- `DB_USERNAME=sail`
+- `DB_PASSWORD=password`
+- `REDIS_HOST=redis`
+- `MAIL_HOST=mailpit`
+- `MAIL_PORT=1025`
+
+## Что хотел показать этим проектом
+
+Этим pet-проектом хотел отработать на практике:
+
+- разработку интернет-магазина на Laravel
+- построение предметной модели e-commerce приложения
+- сценарии корзины, заказа и оплаты
+- интеграцию со Stripe
+- работу с ролями и правами доступа
+- запуск проекта в Docker через Laravel Sail
+
+## Возможные улучшения
+
+Что можно добавить в дальнейшем:
+
+- полноценное REST API для клиентских приложений
+- тестовое покрытие ключевых сценариев корзины и заказов
+- фильтрацию и сортировку каталога
+- промокоды и скидки
+- избранные товары
+- статусы доставки
+- e-mail уведомления
+- очереди для фоновых задач
+- расширенную административную часть
+
+## Автор
+
+GitHub: https://github.com/aveheader
